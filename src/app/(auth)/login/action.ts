@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { axiosClient } from '@/lib/axios';
+import { useSWRConfig } from 'swr';
 import { loginSchema, type LoginFormFields } from './schema';
 
 type ErrorResponse = AxiosError<{
@@ -18,6 +19,8 @@ type ErrorResponse = AxiosError<{
 
 const useLoginAction = () => {
     const router = useRouter();
+
+    const { mutate } = useSWRConfig();
 
     const form = useForm<LoginFormFields>({
         resolver: zodResolver(loginSchema),
@@ -40,7 +43,9 @@ const useLoginAction = () => {
                 duration: 10000,
             });
 
-            router.replace('/dashboard');
+            mutate('/api/auth-user');
+
+            router.push('/');
         } catch (e) {
             console.log({ 'error on e API Catch: ': e });
             const error = e as ErrorResponse;
