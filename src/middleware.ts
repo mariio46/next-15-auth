@@ -5,6 +5,7 @@ import { setIsLoggedInCookie } from './app/_lib/auth';
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
+    const path = request.nextUrl.pathname;
 
     const credential = request.cookies.get('credential');
     const isLoggedIn = request.cookies.get('isLoggedIn');
@@ -13,11 +14,11 @@ export async function middleware(request: NextRequest) {
         await setIsLoggedInCookie('0');
     }
 
-    if (credential && ['/login', '/register'].includes(request.nextUrl.pathname)) {
+    if (credential && ['/login', '/register'].includes(path)) {
         return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    if (!credential && request.nextUrl.pathname.startsWith('/dashboard')) {
+    if (!credential && path.startsWith('/dashboard')) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
