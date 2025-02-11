@@ -2,11 +2,14 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
     /* config options here */
+    compiler: {
+        removeConsole: !!Number(process.env.REMOVE_CONSOLE_LOG),
+    },
     eslint: {
-        ignoreDuringBuilds: true,
+        ignoreDuringBuilds: !!Number(process.env.ENABLE_QUICK_PREVIEW),
     },
     typescript: {
-        ignoreBuildErrors: true,
+        ignoreBuildErrors: !!Number(process.env.ENABLE_QUICK_PREVIEW),
     },
 };
 
