@@ -32,22 +32,19 @@ const useLoginAction = () => {
 
     async function submit(values: LoginFormFields) {
         try {
-            const response = await axiosClient.post<{ message: string }>('/api/login', values);
+            const { data } = await axiosClient.post<{ message: string }>('/api/login', values);
 
             form.reset();
 
-            console.log({ 'Success On Client Action Try': response });
-
             toast('Success', {
-                description: 'Login Success',
+                description: data.message,
                 duration: 10000,
             });
 
             mutate('/api/auth-user');
 
-            router.push('/');
+            router.push('/dashboard');
         } catch (e) {
-            console.log({ 'error on e API Catch: ': e });
             const error = e as ErrorResponse;
 
             if (error.status === 422 && error.response) {
