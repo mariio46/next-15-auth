@@ -5,6 +5,8 @@ import * as React from 'react';
 import { getCookie } from 'cookies-next/client';
 import useSWR from 'swr';
 
+import type { AuthUser } from '@/types/api/auth';
+
 import { fetcher } from '@/lib/utils';
 
 const GetUser = () => {
@@ -13,7 +15,7 @@ const GetUser = () => {
     }, []);
 
     const condition = !!Number(getCookie('isLoggedIn') ?? 0);
-    const { data, isLoading, isValidating } = useSWR(condition ? '/api/auth-user' : null, fetcher);
+    const { data, isLoading, isValidating } = useSWR<{ user: AuthUser }>(condition ? '/api/auth-user' : null, fetcher);
 
     console.log(data, isLoading, isValidating);
 
