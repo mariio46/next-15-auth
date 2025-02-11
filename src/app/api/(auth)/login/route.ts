@@ -1,9 +1,9 @@
-import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
 
 import type { AxiosError } from 'axios';
 
 import { loginSchema } from '@/app/(auth)/login/schema';
+import { setCredentialCookie, setIsLoggedInCookie } from '@/app/_lib/auth';
 import { axiosServer } from '@/lib/axios';
 
 type ErrorResponse = AxiosError<{
@@ -24,8 +24,6 @@ type SuccessResponse = {
 };
 
 export async function POST(request: NextRequest) {
-    const cookieStore = await cookies();
-
     const values = await request.json();
 
     const validatedFields = loginSchema.safeParse(values);
@@ -38,34 +36,13 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const response = await axiosServer.post<SuccessResponse>('/api/auth/login', validatedFields.data);
+        const { data } = await axiosServer.post<SuccessResponse>('/api/auth/login', validatedFields.data);
 
-        const hostname = request.nextUrl.hostname;
-        const expires = new Date(Date.now() + 18000000);
+        await setIsLoggedInCookie('1');
+        await setCredentialCookie(data.data.access_token);
 
-        cookieStore.set({
-            name: 'isLoggedIn',
-            value: '1',
-            httpOnly: true,
-            expires: expires,
-            domain: hostname,
-            path: '/',
-            secure: true,
-        });
-
-        cookieStore.set({
-            name: 'credential',
-            value: response.data.data.access_token,
-            httpOnly: true,
-            expires: expires,
-            domain: hostname,
-            path: '/',
-            secure: true,
-        });
-
-        return Response.json({ message: response.data.message }, { status: 200 });
+        return Response.json({ message: data.message }, { status: 200 });
     } catch (e) {
-        console.log({ 'error on API Catch: ': e });
         const error = e as ErrorResponse;
 
         if (error.status === 422 && error.response) {
