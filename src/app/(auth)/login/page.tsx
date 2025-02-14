@@ -1,6 +1,6 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { LoginMain } from './main';
+import { LoginForm } from './form';
 
 export default function LoginPage() {
     return (
@@ -12,7 +12,10 @@ export default function LoginPage() {
                     aperiam suscipit.
                 </CardDescription>
             </CardHeader>
-            <LoginMain />
+
+            <CardContent>
+                <LoginForm />
+            </CardContent>
         </Card>
     );
 }
