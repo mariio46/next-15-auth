@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-import { TriangleAlert } from 'lucide-react';
+import { register } from './action';
 
-import { login } from './action';
+import { TriangleAlert } from 'lucide-react';
 
 import { ServerActionSubmitButton } from '@/components/button';
 import { Form, FormAction, FormField } from '@/components/form';
@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { InputError } from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
 
-const LoginForm = () => {
-    const [state, action] = React.useActionState(login, null);
+const RegisterForm = () => {
+    const [state, action] = React.useActionState(register, null);
 
     return (
         <>
@@ -28,12 +28,25 @@ const LoginForm = () => {
 
             <Form action={action}>
                 <FormField>
+                    <Label htmlFor='name'>Name</Label>
+                    <Input
+                        id='name'
+                        type='text'
+                        name='name'
+                        placeholder='John Doe'
+                        autoComplete='name'
+                        aria-label='Name'
+                        autoFocus
+                    />
+                    <InputError message={state?.error.name?.toString()} />
+                </FormField>
+
+                <FormField>
                     <Label htmlFor='email'>Email</Label>
                     <Input
                         id='email'
                         type='email'
                         name='email'
-                        autoFocus
                         placeholder='m@example.com'
                         autoComplete='email'
                         aria-label='Email'
@@ -55,12 +68,26 @@ const LoginForm = () => {
                     <InputError message={state?.error.password?.toString()} />
                 </FormField>
 
+                <FormField>
+                    <Label htmlFor='password_confirmation'>Confirm Password</Label>
+                    <Input
+                        id='password_confirmation'
+                        type='password'
+                        name='password_confirmation'
+                        autoFocus
+                        placeholder='********'
+                        autoComplete='password-confirmation'
+                        aria-label='Password Confirmation'
+                    />
+                    <InputError message={state?.error.password?.toString()} />
+                </FormField>
+
                 <FormAction>
-                    <ServerActionSubmitButton text='Login' />
+                    <ServerActionSubmitButton text='Register' />
                 </FormAction>
             </Form>
         </>
     );
 };
 
-export { LoginForm };
+export { RegisterForm };

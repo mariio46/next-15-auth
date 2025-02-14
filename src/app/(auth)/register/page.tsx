@@ -1,12 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { RegisterForm } from './form';
 
-import { LoginForm } from './form';
-
-export default function LoginPage() {
+export default function RegisterPage() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Login</CardTitle>
+                <CardTitle>Register</CardTitle>
                 <CardDescription>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis officia libero culpa! Inventore,
                     aperiam suscipit.
@@ -14,7 +13,7 @@ export default function LoginPage() {
             </CardHeader>
 
             <CardContent>
-                <LoginForm />
+                <RegisterForm />
             </CardContent>
         </Card>
     );
