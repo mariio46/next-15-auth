@@ -1,71 +1,53 @@
-import { useRouter } from 'next/navigation';
+'use server';
 
-import { zodResolver } from '@hookform/resolvers/zod';
+import { redirect } from 'next/navigation';
+
 import type { AxiosError } from 'axios';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 
-import { axiosClient } from '@/lib/axios';
-import { useSWRConfig } from 'swr';
-import { loginSchema, type LoginFormFields } from './schema';
+import { axiosServer } from '@/lib/axios';
+import { loginSchema } from './schema';
 
-type ErrorResponse = AxiosError<{
-    message: string;
-    errors: {
-        email?: string[];
-        password?: string[];
-    };
-}>;
-
-const useLoginAction = () => {
-    const router = useRouter();
-
-    const { mutate } = useSWRConfig();
-
-    const form = useForm<LoginFormFields>({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-        },
-    });
-
-    async function submit(values: LoginFormFields) {
-        try {
-            const { data } = await axiosClient.post<{ message: string }>('/api/login', values);
-
-            form.reset();
-
-            toast('Success', {
-                description: data.message,
-                duration: 10000,
-            });
-
-            mutate('/api/auth-user');
-
-            router.push('/dashboard');
-        } catch (e) {
-            const error = e as ErrorResponse;
-
-            if (error.status === 422 && error.response) {
-                const { errors } = error.response.data;
-
-                if (errors.email) {
-                    form.setError('email', { message: errors.email[0] });
-                }
-
-                if (errors.password) {
-                    form.setError('password', { message: errors.password[0] });
-                }
-            } else {
-                console.log({ 'Error On Client Action Catch': error });
-            }
-        }
-    }
-
-    return { form, submit };
+type ErrorResponse = {
+    email?: string[];
+    password?: string[];
+    message?: string;
 };
 
-type UseLoginActionReturn = ReturnType<typeof useLoginAction>;
+type SuccessResponse = {
+    message: string;
+    data: {
+        access_token: string;
+        token_type: string;
+        expires_in: string;
+    };
+};
 
-export { useLoginAction, type UseLoginActionReturn };
+export async function login(prevState: unknown, formData: FormData) {
+    const values = Object.fromEntries(formData.entries());
+
+    const validatedFields = loginSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: validatedFields.error.flatten().fieldErrors } as { error: ErrorResponse };
+    }
+
+    const { email, password } = validatedFields.data;
+
+    try {
+        const { data } = await axiosServer.post<SuccessResponse>('/api/auth/login', { email, password });
+
+        console.log(data);
+    } catch (e) {
+        const error = e as AxiosError<ErrorResponse>;
+
+        if (error.status === 401 && error.response) {
+            const errors = error.response.data;
+
+            return { error: errors };
+        }
+
+        return { error: { message: 'Server is busy!' } } as { error: ErrorResponse };
+    }
+
+    redirect('/dashboard');
+}
