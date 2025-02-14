@@ -2,13 +2,12 @@
 
 import * as React from 'react';
 
-import Form from 'next/form';
-
 import { TriangleAlert } from 'lucide-react';
 
 import { login } from './action';
 
 import { ServerActionSubmitButton } from '@/components/button';
+import { Form, FormAction, FormField } from '@/components/form';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { InputError } from '@/components/ui/input-error';
@@ -27,10 +26,8 @@ const LoginForm = () => {
                 </Alert>
             )}
 
-            <Form
-                action={action}
-                className='[&>[data-slot=form-field]]:mb-4 [&>[data-slot=form-submit]]:mt-6 [&>fieldset]:space-y-1'>
-                <fieldset data-slot='form-field'>
+            <Form action={action}>
+                <FormField>
                     <Label htmlFor='email'>Email</Label>
                     <Input
                         id='email'
@@ -42,9 +39,9 @@ const LoginForm = () => {
                         aria-label='Email'
                     />
                     <InputError message={state?.error.email?.toString()} />
-                </fieldset>
+                </FormField>
 
-                <fieldset data-slot='form-field'>
+                <FormField>
                     <Label htmlFor='password'>Password</Label>
                     <Input
                         id='password'
@@ -56,11 +53,11 @@ const LoginForm = () => {
                         aria-label='Password'
                     />
                     <InputError message={state?.error.password?.toString()} />
-                </fieldset>
+                </FormField>
 
-                <div data-slot='form-submit'>
+                <FormAction>
                     <ServerActionSubmitButton text='Login' />
-                </div>
+                </FormAction>
             </Form>
         </>
     );
