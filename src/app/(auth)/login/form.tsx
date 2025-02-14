@@ -1,59 +1,68 @@
-import type { UseLoginActionReturn } from './action';
+'use client';
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import * as React from 'react';
+
+import Form from 'next/form';
+
+import { TriangleAlert } from 'lucide-react';
+
+import { login } from './action';
+
+import { ServerActionSubmitButton } from '@/components/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
+import { InputError } from '@/components/ui/input-error';
+import { Label } from '@/components/ui/label';
 
-interface LoginFormProps {
-    action: UseLoginActionReturn;
-}
-
-const LoginForm = ({ action }: LoginFormProps) => {
-    const { form, submit } = action;
+const LoginForm = () => {
+    const [state, action] = React.useActionState(login, null);
 
     return (
-        <Form {...form}>
-            <form id='login-form' onSubmit={form.handleSubmit(submit)} className='space-y-4'>
-                <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input
-                                    autoFocus
-                                    placeholder='Masukkan email anda'
-                                    autoComplete='email'
-                                    type='text'
-                                    aria-label='Email'
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name='password'
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                                <Input
-                                    placeholder='********'
-                                    autoComplete='current-password'
-                                    aria-label='Password'
-                                    type='password'
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </form>
-        </Form>
+        <>
+            {state?.error && state?.error.message && (
+                <Alert variant='destructive' className='mb-6'>
+                    <TriangleAlert className='size-4' />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>{state?.error.message}</AlertDescription>
+                </Alert>
+            )}
+
+            <Form
+                action={action}
+                className='[&>[data-slot=form-field]]:mb-4 [&>[data-slot=form-submit]]:mt-6 [&>fieldset]:space-y-1'>
+                <fieldset data-slot='form-field'>
+                    <Label htmlFor='email'>Email</Label>
+                    <Input
+                        id='email'
+                        type='email'
+                        name='email'
+                        autoFocus
+                        placeholder='m@example.com'
+                        autoComplete='email'
+                        aria-label='Email'
+                    />
+                    <InputError message={state?.error.email?.toString()} />
+                </fieldset>
+
+                <fieldset data-slot='form-field'>
+                    <Label htmlFor='password'>Password</Label>
+                    <Input
+                        id='password'
+                        type='password'
+                        name='password'
+                        autoFocus
+                        placeholder='********'
+                        autoComplete='password'
+                        aria-label='Password'
+                    />
+                    <InputError message={state?.error.password?.toString()} />
+                </fieldset>
+
+                <div data-slot='form-submit'>
+                    <ServerActionSubmitButton text='Login' />
+                </div>
+            </Form>
+        </>
     );
 };
 
