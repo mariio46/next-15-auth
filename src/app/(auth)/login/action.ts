@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 
 import type { AxiosError } from 'axios';
 
+import { setCredentialCookie, setIsLoggedInCookie } from '@/app/_lib/auth';
 import { axiosServer } from '@/lib/axios';
 import { loginSchema } from './schema';
 
@@ -22,7 +23,7 @@ type SuccessResponse = {
     };
 };
 
-export async function login(prevState: unknown, formData: FormData) {
+export async function login(_: unknown, formData: FormData) {
     const values = Object.fromEntries(formData.entries());
 
     const validatedFields = loginSchema.safeParse(values);
@@ -36,14 +37,16 @@ export async function login(prevState: unknown, formData: FormData) {
     try {
         const { data } = await axiosServer.post<SuccessResponse>('/api/auth/login', { email, password });
 
-        console.log(data);
+        await Promise.all([setIsLoggedInCookie('1'), setCredentialCookie(data.data.access_token)]);
     } catch (e) {
-        const error = e as AxiosError<ErrorResponse>;
+        const error = e as AxiosError<{ errors: ErrorResponse }>;
 
-        if (error.status === 401 && error.response) {
+        if (error.status === 422 && error.response) {
             const errors = error.response.data;
 
-            return { error: errors };
+            return {
+                error: { email: errors.errors.email?.[0], password: errors.errors.password?.[0], message: undefined },
+            } as { error: ErrorResponse };
         }
 
         return { error: { message: 'Server is busy!' } } as { error: ErrorResponse };
