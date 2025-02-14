@@ -1,27 +1,63 @@
 'use client';
 
-import { Loader } from 'lucide-react';
+import * as React from 'react';
 
-import { useLoginAction } from './action';
+import { login } from './action';
 
-import { Button } from '@/components/ui/button';
+import { ServerActionSubmitButton } from '@/components/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CardContent, CardFooter } from '@/components/ui/card';
-
-import { LoginForm } from './form';
+import { Input } from '@/components/ui/input';
+import { InputError } from '@/components/ui/input-error';
+import { Label } from '@/components/ui/label';
+import { TriangleAlert } from 'lucide-react';
 
 const LoginMain = () => {
-    const { form, submit } = useLoginAction();
+    const [state, action, pending] = React.useActionState(login, null);
 
     return (
         <>
             <CardContent>
-                <LoginForm action={{ form, submit }} />
+                {state?.error && state?.error.message && (
+                    <Alert variant='destructive' className='mb-6'>
+                        <TriangleAlert className='size-4' />
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>{state?.error.message}</AlertDescription>
+                    </Alert>
+                )}
+
+                <form action={action} id='login-form' className='space-y-4 [&>fieldset]:space-y-1'>
+                    <fieldset>
+                        <Label htmlFor='email'>Email</Label>
+                        <Input
+                            id='email'
+                            type='email'
+                            name='email'
+                            autoFocus
+                            placeholder='m@example.com'
+                            autoComplete='email'
+                            aria-label='Email'
+                        />
+                        <InputError message={state?.error.email?.toString()} />
+                    </fieldset>
+                    <fieldset>
+                        <Label htmlFor='password'>Password</Label>
+                        <Input
+                            id='password'
+                            type='password'
+                            name='password'
+                            autoFocus
+                            placeholder='********'
+                            autoComplete='password'
+                            aria-label='Password'
+                        />
+                        <InputError message={state?.error.password?.toString()} />
+                    </fieldset>
+                </form>
             </CardContent>
+
             <CardFooter>
-                <Button form='login-form' className='w-full' type='submit' disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting && <Loader className='animate-spin' />}
-                    {form.formState.isSubmitting ? 'Processing...' : 'Login'}
-                </Button>
+                <ServerActionSubmitButton form='login-form' text='Login' disabled={pending} />
             </CardFooter>
         </>
     );
