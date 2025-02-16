@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { cn } from '@/lib/utils';
 import { geistMono, geistSans } from './fonts';
 
+import { AuthUserProvider } from '@/providers/auth-user-provider';
 import { SwrConfigProvider } from '@/providers/swr-provider';
 
 import './globals.css';
@@ -20,7 +21,9 @@ export default function RootLayout({
     return (
         <html lang='en' className={cn(geistSans.variable, geistMono.variable)}>
             <body className='font-sans antialiased' suppressHydrationWarning>
-                <SwrConfigProvider>{children}</SwrConfigProvider>
+                <SwrConfigProvider>
+                    <AuthUserProvider>{children}</AuthUserProvider>
+                </SwrConfigProvider>
             </body>
         </html>
     );
