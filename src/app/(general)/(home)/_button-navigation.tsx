@@ -10,8 +10,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 export function ButtonNavigation() {
     const { status } = useAuthUserStore();
 
-    console.log(status);
-
     return (
         <div className='flex items-center gap-4' suppressHydrationWarning>
             {status === 'pending' && (
