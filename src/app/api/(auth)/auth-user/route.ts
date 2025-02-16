@@ -1,15 +1,12 @@
 import type { AxiosError } from 'axios';
 
 import { getAuthUser } from '@/app/_lib/auth';
-import { bearerToken } from '@/lib/server-utils';
 
 export async function GET() {
-    const token = await bearerToken();
-
     try {
-        const { data } = await getAuthUser(token);
+        const { data } = await getAuthUser();
 
-        return Response.json(data, { status: 200 });
+        return Response.json(data.data, { status: 200 });
     } catch (e) {
         const error = e as AxiosError;
 
