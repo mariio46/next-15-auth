@@ -1,10 +1,12 @@
-import { GetUser } from './get-user';
+import { AuthUser } from './_user';
 
 export default function Home() {
     return (
         <main>
-            <GetUser />
             <h1>Home</h1>
+            <div className='mt-10'>
+                <AuthUser />
+            </div>
         </main>
     );
 }
