@@ -7,11 +7,11 @@ import { useAuthUserStore } from '@/stores/auth-user-store';
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
     const { data, isLoading, isValidating, error } = getAuthUser();
-    const { setUnauth } = useAuthUserStore();
+    const setAuth = useAuthUserStore((state) => state.setAuth);
 
     React.useEffect(() => {
         if (!data && !isLoading && !isValidating && !error) {
-            setUnauth();
+            setAuth({ user: undefined, status: 'unauthenticated' });
         }
     }, []);
 

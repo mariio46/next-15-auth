@@ -12,15 +12,15 @@ import { useAuthUserStore } from '@/stores/auth-user-store';
 import { fetcher } from './utils';
 
 export function getAuthUser() {
-    const { setAuth, clearAuth } = useAuthUserStore();
+    const setAuth = useAuthUserStore((state) => state.setAuth);
 
     return useSWR<{ user: AuthUser }, AxiosError>(isLoggedIn() ? '/api/auth-user' : null, fetcher, {
         onSuccess: (data) => {
-            setAuth(data.user);
+            setAuth({ user: data.user, status: 'authenticated' });
         },
         onError: (e) => {
             if (e.status === 401) {
-                clearAuth();
+                setAuth({ user: undefined, status: 'unauthenticated' });
             }
         },
     });

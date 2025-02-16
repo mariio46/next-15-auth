@@ -3,7 +3,7 @@
 import { useAuthUserStore } from '@/stores/auth-user-store';
 
 const AuthUser = () => {
-    const { user, status } = useAuthUserStore();
+    const { user, status } = useAuthUserStore((state) => ({ user: state.user, status: state.status }));
 
     if (status === 'pending' || status === 'unauthenticated') {
         return <div />;

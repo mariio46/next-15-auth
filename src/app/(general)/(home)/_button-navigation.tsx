@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function ButtonNavigation() {
-    const { status } = useAuthUserStore();
+    const status = useAuthUserStore((state) => state.status);
 
     return (
         <div className='flex items-center gap-4' suppressHydrationWarning>

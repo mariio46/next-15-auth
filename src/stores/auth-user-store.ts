@@ -23,11 +23,7 @@ type UnauthenticatedUser = {
 type AuthUserState = PendingUser | AuthenticatedUser | UnauthenticatedUser;
 
 type AuthUserAction = {
-    setUser: (user: AuthUser) => void;
-
-    clearAuth: () => void;
-    setUnauth: () => void;
-    setAuth: (user: AuthUser) => void;
+    setAuth: (auth: AuthUserState) => void;
 };
 
 type UseAuthUserStore = AuthUserState & AuthUserAction;
@@ -36,13 +32,9 @@ const authUserStore = create<UseAuthUserStore>()((set) => ({
     user: undefined,
     status: 'pending',
 
-    setUser: (user) => set({ user }),
-
-    clearAuth: () => set({ user: undefined, status: 'unauthenticated' }),
-    setUnauth: () => set({ user: undefined, status: 'unauthenticated' }),
-    setAuth: (user) => set({ status: 'authenticated', user }),
+    setAuth: (auth) => set(() => auth),
 }));
 
-export const useAuthUserStore = () => {
-    return authUserStore(useShallow((state) => state));
+export const useAuthUserStore = <T>(selector: (state: UseAuthUserStore) => T): T => {
+    return authUserStore(useShallow(selector));
 };
