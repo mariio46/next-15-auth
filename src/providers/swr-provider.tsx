@@ -19,9 +19,6 @@ const SwrConfigProvider = ({ children }: { children: React.ReactNode }) => {
 
                     setTimeout(() => revalidate({ retryCount: revalidateOpts.retryCount }), 5000);
                 },
-                onError: () => {
-                    console.log('error from provider');
-                },
             }}>
             {children}
         </SWRConfig>
