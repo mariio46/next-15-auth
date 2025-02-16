@@ -47,7 +47,6 @@ const LoginForm = () => {
                         id='password'
                         type='password'
                         name='password'
-                        autoFocus
                         placeholder='********'
                         autoComplete='password'
                         aria-label='Password'
