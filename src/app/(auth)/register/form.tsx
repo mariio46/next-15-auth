@@ -60,7 +60,6 @@ const RegisterForm = () => {
                         id='password'
                         type='password'
                         name='password'
-                        autoFocus
                         placeholder='********'
                         autoComplete='password'
                         aria-label='Password'
@@ -74,7 +73,6 @@ const RegisterForm = () => {
                         id='password_confirmation'
                         type='password'
                         name='password_confirmation'
-                        autoFocus
                         placeholder='********'
                         autoComplete='password-confirmation'
                         aria-label='Password Confirmation'
