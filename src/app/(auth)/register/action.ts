@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation';
 
 import type { AxiosError } from 'axios';
 
-import { setCredentialCookie, setIsLoggedInCookie } from '@/app/_lib/auth';
 import { axiosServer } from '@/lib/axios';
+import { setCredentialCookie, setIsLoggedInCookie } from '@/lib/server-utils';
 import { registerSchema } from './schema';
 
 type ErrorResponse = {
