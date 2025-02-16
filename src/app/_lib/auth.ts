@@ -5,10 +5,13 @@ import { cookies } from 'next/headers';
 import type { AuthUser } from '@/types/api/auth';
 
 import { axiosServer } from '@/lib/axios';
+import { bearerToken } from '@/lib/server-utils';
 import { getCurrentHostname } from '@/lib/utils';
 
-export async function getAuthUser(token: string) {
-    return await axiosServer.get<{ user: AuthUser }>('/api/auth/user', {
+export async function getAuthUser() {
+    const token = await bearerToken();
+
+    return await axiosServer.get<{ data: { user: AuthUser } }>('/api/auth/user', {
         headers: {
             Authorization: token,
         },
