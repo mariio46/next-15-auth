@@ -2,24 +2,26 @@
 
 import Link from 'next/link';
 
-import { getAuthUser } from '@/lib/client-utils';
+import { useAuthUserStore } from '@/stores/auth-user-store';
 
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function ButtonNavigation() {
-    const { data, isLoading } = getAuthUser();
+    const { status } = useAuthUserStore();
+
+    console.log(status);
 
     return (
         <div className='flex items-center gap-4' suppressHydrationWarning>
-            {isLoading && (
+            {status === 'pending' && (
                 <>
                     <Skeleton className='h-9 w-24' />
                     <Skeleton className='h-9 w-24' />
                 </>
             )}
 
-            {!isLoading && typeof data === 'undefined' && (
+            {status === 'unauthenticated' && (
                 <div className='flex items-center gap-4'>
                     <Button asChild>
                         <Link href='/login'>Login</Link>
@@ -30,7 +32,7 @@ export function ButtonNavigation() {
                 </div>
             )}
 
-            {!isLoading && typeof data !== 'undefined' && (
+            {status === 'authenticated' && (
                 <Button asChild>
                     <Link href='/dashboard'>Dashboard</Link>
                 </Button>
