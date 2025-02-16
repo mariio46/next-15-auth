@@ -1,17 +1,19 @@
 'use client';
 
-import { getAuthUser } from '@/lib/client-utils';
+import { useAuthUserStore } from '@/stores/auth-user-store';
 
 const AuthUser = () => {
-    const { data, isLoading } = getAuthUser();
+    const { user, status } = useAuthUserStore();
+
+    if (status === 'pending' || status === 'unauthenticated') {
+        return <div />;
+    }
 
     return (
         <div>
-            {!isLoading && data && (
-                <pre className='mt-2 w-min rounded-md bg-black p-4'>
-                    <code className='text-white'>{JSON.stringify(data.user, null, 2)}</code>
-                </pre>
-            )}
+            <pre className='mt-2 w-min rounded-md bg-black p-4'>
+                <code className='text-white'>{JSON.stringify(user, null, 2)}</code>
+            </pre>
         </div>
     );
 };
