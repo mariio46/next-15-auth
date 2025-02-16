@@ -2,10 +2,16 @@ import 'server-only';
 
 import { cookies } from 'next/headers';
 
+import { jwtVerify } from 'jose';
+
 import type { AuthUser } from '@/types/api/auth';
+import type { ApiJWTPayload } from '@/types/api/jwt';
 
 import { axiosServer } from './axios';
 import { getCurrentHostname } from './utils';
+
+const cookieExpires = new Date(Date.now() + 18000000);
+const encodedKey = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function getAuthUser() {
     const token = await bearerToken();
@@ -16,8 +22,6 @@ export async function getAuthUser() {
         },
     });
 }
-
-const cookieExpires = new Date(Date.now() + 18000000);
 
 export async function setIsLoggedInCookie(value: string) {
     const cookieStore = await cookies();
@@ -63,4 +67,15 @@ export async function isAuthenticated() {
     const isLoggedIn = cookieStore.get('isLoggedIn');
 
     return !isLoggedIn ? false : !!Number(isLoggedIn.value);
+}
+
+export async function verifyJwt(session: string | undefined = '') {
+    try {
+        const { payload } = await jwtVerify<ApiJWTPayload>(session, encodedKey, {
+            algorithms: ['HS256'],
+        });
+        return payload;
+    } catch (error) {
+        return undefined;
+    }
 }
