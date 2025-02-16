@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios';
 
-import { getAuthUser } from '@/app/_lib/auth';
+import { getAuthUser } from '@/lib/server-utils';
 
 export async function GET() {
     try {
