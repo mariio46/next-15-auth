@@ -2,18 +2,10 @@
 
 import * as React from 'react';
 
-import { getAuthUser } from '@/lib/client-utils';
-import { useAuthUserStore } from '@/stores/auth-user-store';
+import { useQueryAuthUser } from '@/queries/client/auth-user';
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
-    const { data, isLoading, isValidating, error } = getAuthUser();
-    const setAuth = useAuthUserStore((state) => state.setAuth);
-
-    React.useEffect(() => {
-        if (!data && !isLoading && !isValidating && !error) {
-            setAuth({ user: undefined, status: 'unauthenticated' });
-        }
-    }, []);
+    useQueryAuthUser();
 
     return children;
 };

@@ -1,10 +1,10 @@
 import { AuthUserProvider } from './auth-user-provider';
-import { SwrConfigProvider } from './swr-provider';
+import { TanstackQueryProvider } from './tanstack-query-provider';
 
 export default function RootProvider({ children }: { children: React.ReactNode }) {
     return (
-        <SwrConfigProvider>
+        <TanstackQueryProvider>
             <AuthUserProvider>{children}</AuthUserProvider>
-        </SwrConfigProvider>
+        </TanstackQueryProvider>
     );
 }
