@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { AuthUser } from '@/app/(general)/(home)/_user';
 import { Button } from '@/components/ui/button';
 
 export default function DashboardPage() {
@@ -9,6 +10,7 @@ export default function DashboardPage() {
             <Button asChild>
                 <Link href='/'>Home</Link>
             </Button>
+            <AuthUser />
         </div>
     );
 }
