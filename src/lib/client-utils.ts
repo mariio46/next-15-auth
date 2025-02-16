@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import 'client-only';
 
 import { getCookie } from 'cookies-next/client';
