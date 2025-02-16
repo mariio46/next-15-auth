@@ -9,5 +9,6 @@ declare namespace NodeJS {
         readonly BASE_API_URL: string;
         readonly ENABLE_QUICK_PREVIEW: string;
         readonly REMOVE_CONSOLE_LOG: string;
+        readonly JWT_SECRET: string;
     }
 }
