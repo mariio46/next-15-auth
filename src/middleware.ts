@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { setIsLoggedInCookie } from './app/_lib/auth';
+import { setIsLoggedInCookie } from './lib/server-utils';
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
@@ -10,8 +10,10 @@ export async function middleware(request: NextRequest) {
     const credential = request.cookies.get('credential');
     const isLoggedIn = request.cookies.get('isLoggedIn');
 
-    if (!credential && !isLoggedIn) {
-        await setIsLoggedInCookie('0');
+    if (!credential) {
+        if (isLoggedIn) {
+            await setIsLoggedInCookie('0');
+        }
     }
 
     if (credential && ['/login', '/register'].includes(path)) {
