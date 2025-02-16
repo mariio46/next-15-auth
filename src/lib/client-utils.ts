@@ -8,7 +8,7 @@ import type { AuthUser } from '@/types/api/auth';
 import { fetcher } from './utils';
 
 export function getAuthUser() {
-    return useSWR<{ user: AuthUser }>(isLoggedIn() ? '/api/auth-user' : null, fetcher);
+    return useSWR<{ user: AuthUser }>('/api/auth-user', fetcher);
 }
 
 export function isLoggedIn(): boolean {
