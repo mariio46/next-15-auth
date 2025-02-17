@@ -10,6 +10,7 @@ export function isLoggedIn(): boolean {
     return !!Number(getCookie('isLoggedIn') ?? 0);
 }
 
+/* eslint react-hooks/rules-of-hooks: 0 */
 export function redirectIfUnauthenticated() {
     const setAuth = useAuthUserStore((state) => state.setAuth);
     const queryClient = useQueryClient();

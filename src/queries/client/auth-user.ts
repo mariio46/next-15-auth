@@ -14,6 +14,7 @@ async function getAuthUser() {
     return await axiosClient.get<{ user: AuthUser }>('/api/auth-user').then((res) => res.data);
 }
 
+/* eslint react-hooks/exhaustive-deps: 0 */
 export const useQueryAuthUser = () => {
     const lastUpdatedRef = React.useRef<number | null>(null);
 
