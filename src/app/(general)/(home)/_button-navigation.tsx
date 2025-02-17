@@ -32,7 +32,7 @@ export function ButtonNavigation() {
 
             {status === 'authenticated' && (
                 <Button asChild>
-                    <Link href='/dashboard'>Dashboard</Link>
+                    <Link href='/auth/dashboard'>Dashboard</Link>
                 </Button>
             )}
         </div>

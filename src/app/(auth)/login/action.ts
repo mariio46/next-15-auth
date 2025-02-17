@@ -52,5 +52,5 @@ export async function login(_: unknown, formData: FormData) {
         return { error: { message: 'Server is busy!' } } as { error: ErrorResponse };
     }
 
-    redirect('/dashboard');
+    redirect('/auth/dashboard');
 }
