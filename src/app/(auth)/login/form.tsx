@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 
-import { TriangleAlert } from 'lucide-react';
-
 import { login } from './action';
 
 import { ServerActionSubmitButton } from '@/components/button';
@@ -12,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { InputError } from '@/components/ui/input-error';
 import { Label } from '@/components/ui/label';
+import { LucideReactIcon } from '@/components/ui/lucide-react-icon';
 
 const LoginForm = () => {
     const [state, action] = React.useActionState(login, null);
@@ -20,7 +19,7 @@ const LoginForm = () => {
         <>
             {state?.error && state?.error.message && (
                 <Alert variant='destructive' className='mb-6'>
-                    <TriangleAlert className='size-4' />
+                    <LucideReactIcon name='TriangleAlert' className='size-4' />
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>{state?.error.message}</AlertDescription>
                 </Alert>

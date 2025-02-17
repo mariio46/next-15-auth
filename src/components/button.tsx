@@ -3,9 +3,8 @@
 import * as React from 'react';
 import { useFormStatus } from 'react-dom';
 
-import { Loader } from 'lucide-react';
-
 import { Button, type ButtonProps } from './ui/button';
+import { LucideReactIcon } from './ui/lucide-react-icon';
 
 const ServerActionSubmitButton = React.forwardRef<
     HTMLButtonElement,
@@ -15,7 +14,7 @@ const ServerActionSubmitButton = React.forwardRef<
 
     return (
         <Button type='submit' disabled={disabled || pending} ref={ref} {...props}>
-            {(disabled || pending) && <Loader className='animate-spin' />}
+            {(disabled || pending) && <LucideReactIcon name='Loader' className='animate-spin' />}
             {disabled || pending ? 'Processing...' : text}
         </Button>
     );
