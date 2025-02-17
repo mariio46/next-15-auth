@@ -81,3 +81,11 @@ export async function verifyJwt(session: string | undefined = '') {
         return undefined;
     }
 }
+
+export async function handleIfUnauthenticated() {
+    const cookieStore = await cookies();
+
+    cookieStore.delete('credential');
+
+    await setIsLoggedInCookie('0');
+}
