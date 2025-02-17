@@ -18,7 +18,7 @@ export default function Home() {
                             <span className='text-[#FF2D20]'>Laravel</span> &
                             <span className='text-violet-600'> JWT.IO</span>
                         </HeaderTitle>
-                        <HeaderSubTitle className='max-w-2xl'>
+                        <HeaderSubTitle className='max-w-2xl lg:text-base'>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore magni blanditiis magnam
                             maxime cumque voluptates ipsum deleniti similique illum ut reprehenderit, perspiciatis porro
                             dolor ratione?.
