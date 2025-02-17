@@ -15,7 +15,7 @@ export function verifyJwtMiddleware(middleware: CustomMiddleware) {
 
         const payload = await verifyJwt(credential?.value);
 
-        if (path.startsWith('/auth/dashboard') && !payload) {
+        if (path.startsWith('/auth') && !payload) {
             if (request.cookies.has('credential')) {
                 request.cookies.delete('credential');
             }

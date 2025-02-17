@@ -15,7 +15,7 @@ export function redirectMiddleware(middleware: CustomMiddleware) {
             return NextResponse.redirect(new URL('/auth/dashboard', request.url));
         }
 
-        if (!credential && path.startsWith('/auth/dashboard')) {
+        if (!credential && path.startsWith('/auth')) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
 
