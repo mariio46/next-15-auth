@@ -10,7 +10,7 @@ const Header = ({ children, className, ...props }: React.HTMLAttributes<HTMLDivE
 
 const HeaderTitle = ({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
     return (
-        <h1 className={cn('text-xl font-bold text-foreground lg:text-3xl', className)} {...props}>
+        <h1 className={cn('text-base font-bold text-foreground lg:text-lg', className)} {...props}>
             {children}
         </h1>
     );
@@ -18,7 +18,7 @@ const HeaderTitle = ({ children, className, ...props }: React.HTMLAttributes<HTM
 
 const HeaderSubTitle = ({ children, className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => {
     return (
-        <p className={cn('text-sm text-muted-foreground lg:text-base', className)} {...props}>
+        <p className={cn('text-sm text-muted-foreground', className)} {...props}>
             {children}
         </p>
     );
