@@ -53,5 +53,11 @@ export const useQueryAuthUser = () => {
         }
     }, [query.dataUpdatedAt, query.isSuccess, query.isError, query.isFetching]);
 
+    React.useEffect(() => {
+        if (query.isError && query.error.status === 401) {
+            window.location.reload();
+        }
+    }, [query.isError, query.error]);
+
     return query;
 };

@@ -12,10 +12,10 @@ export function redirectMiddleware(middleware: CustomMiddleware) {
         const credential = request.cookies.get('credential');
 
         if (credential && ['/login', '/register'].includes(path)) {
-            return NextResponse.redirect(new URL('/dashboard', request.url));
+            return NextResponse.redirect(new URL('/auth/dashboard', request.url));
         }
 
-        if (!credential && path.startsWith('/dashboard')) {
+        if (!credential && path.startsWith('/auth/dashboard')) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
 

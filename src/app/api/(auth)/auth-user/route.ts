@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios';
 
-import { getAuthUser } from '@/lib/server-utils';
+import { getAuthUser, handleIfUnauthenticated } from '@/lib/server-utils';
 
 export async function GET() {
     try {
@@ -11,6 +11,8 @@ export async function GET() {
         const error = e as AxiosError;
 
         if (error.status === 401) {
+            await handleIfUnauthenticated();
+
             return Response.json({ message: 'unauthenticated' }, { status: 401 });
         }
 

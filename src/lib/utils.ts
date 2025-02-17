@@ -18,3 +18,7 @@ export function getCurrentHostname() {
 
     return hostname.split('//').pop()?.split(':').shift();
 }
+
+export const acronym = (value: string): string => {
+    return value.trim().substring(0, 1).toLocaleUpperCase();
+};
