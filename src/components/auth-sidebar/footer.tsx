@@ -13,12 +13,13 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LucideReactIcon } from '@/components/ui/lucide-react-icon';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const AuthSidebarFooter = () => {
     const user = useAuthUserStore((state) => state.user);
     const { handleLogout: logout, loading } = useLogoutAction();
+    const { open } = useSidebar();
 
     function handleLogout(e: Event) {
         e.preventDefault();
@@ -57,7 +58,7 @@ const AuthSidebarFooter = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                             className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
-                            side='bottom'
+                            side={open ? 'bottom' : 'right'}
                             align='end'
                             sideOffset={4}>
                             <DropdownMenuLabel className='p-0 font-normal'>

@@ -11,7 +11,7 @@ import { AuthSidebarHeader } from './header';
 
 export function AuthSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar collapsible='icon' {...props}>
+        <Sidebar variant='floating' collapsible='icon' {...props}>
             <SidebarHeader>
                 <AuthSidebarHeader />
             </SidebarHeader>
