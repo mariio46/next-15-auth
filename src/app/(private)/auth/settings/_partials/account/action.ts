@@ -1,13 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-import type { ApiResponse } from '@/types/api';
 import type { UpdateAccountErrorResponse, UpdateAccountSuccessResponse } from '@/types/api/update-account';
 
 import { axiosClient } from '@/lib/axios';
 import { redirectIfUnauthenticated } from '@/lib/client-utils';
 import { useAuthUserStore } from '@/stores/auth-user-store';
+import type { ApiResponse } from '@/types/api';
 import { updateAccountSchema, type UpdateAccountFormFields } from './schema';
 
 const useUpdateAccountAction = () => {
@@ -29,28 +30,24 @@ const useUpdateAccountAction = () => {
         },
     });
 
-    const { mutateAsync, isPending } = useMutation<
-        ApiResponse<Omit<UpdateAccountSuccessResponse['data'], 'authorization'>>,
-        UpdateAccountErrorResponse,
-        UpdateAccountFormFields
-    >({
-        mutationKey: ['update-auth-user-account'],
-        mutationFn: (values) => axiosClient.patch('/api/update-account', values),
-        onSuccess: () => {
+    async function submit(values: UpdateAccountFormFields) {
+        try {
+            const { data } = await axiosClient.patch<
+                ApiResponse<Omit<UpdateAccountSuccessResponse['data'], 'authorization'>>
+            >('/api/update-account', values);
+
+            form.reset({
+                name: data.data.user.name,
+                email: data.data.user.email,
+            });
+
             queryClient.invalidateQueries({
                 queryKey: ['auth-user'],
                 exact: true,
             });
-        },
-    });
 
-    async function submit(values: UpdateAccountFormFields) {
-        try {
-            const { data } = await mutateAsync(values);
-
-            form.reset({
-                name: data.user.name,
-                email: data.user.email,
+            toast('Success', {
+                description: data.message,
             });
         } catch (e) {
             const error = e as UpdateAccountErrorResponse;
@@ -73,7 +70,7 @@ const useUpdateAccountAction = () => {
         }
     }
 
-    return { form, submit, isPending };
+    return { form, submit };
 };
 
 export { useUpdateAccountAction };

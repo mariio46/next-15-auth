@@ -1,14 +1,10 @@
-import type { AxiosError } from 'axios';
-
 import type { ApiResponse, ApiValidationErrorResponse } from '.';
 import type { AuthUser } from './auth';
 
-type UpdateAccountErrorResponse = AxiosError<
-    ApiValidationErrorResponse<{
-        name?: string[];
-        email?: string[];
-    }>
->;
+type UpdateAccountErrorResponse = ApiValidationErrorResponse<{
+    name?: string[];
+    email?: string[];
+}>;
 
 type UpdateAccountSuccessResponse = ApiResponse<{
     user: AuthUser;

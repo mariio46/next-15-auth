@@ -16,7 +16,7 @@ export async function PATCH(request: Request) {
 
         await setCredentialCookie(data.data.authorization.access_token);
 
-        return Response.json({ user: data.data.user }, { status: 200 });
+        return Response.json({ message: data.message, data: { user: data.data.user } }, { status: 200 });
     } catch (e) {
         const error = e as UpdateAccountErrorResponse;
 

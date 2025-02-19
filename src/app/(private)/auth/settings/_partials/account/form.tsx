@@ -2,13 +2,12 @@
 
 import { useUpdateAccountAction } from './action';
 
-import { Button } from '@/components/ui/button';
+import { ClientActionSubmitButton } from '@/components/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LucideReactIcon } from '@/components/ui/lucide-react-icon';
 
 const UpdateAccountForm = () => {
-    const { form, isPending, submit } = useUpdateAccountAction();
+    const { form, submit } = useUpdateAccountAction();
 
     return (
         <Form {...form}>
@@ -55,13 +54,10 @@ const UpdateAccountForm = () => {
                 />
 
                 <div>
-                    <Button
-                        type='submit'
-                        form='update-account-form'
-                        disabled={form.formState.isSubmitting || !form.formState.isDirty || isPending}>
-                        {form.formState.isSubmitting && <LucideReactIcon name='Loader' className='animate-spin' />}
-                        {form.formState.isSubmitting ? 'Processing...' : 'Save'}
-                    </Button>
+                    <ClientActionSubmitButton
+                        visibility={form.formState.isSubmitting}
+                        disabled={form.formState.isSubmitting || !form.formState.isDirty}
+                    />
                 </div>
             </form>
         </Form>
