@@ -1,12 +1,13 @@
 import { Header, HeaderSubTitle, HeaderTitle } from '@/components/header';
 
+import { Button } from '@/components/ui/button';
 import { UpdateAccountForm } from './_partials/account/form';
 import { UpdatePasswordForm } from './_partials/security/form';
 
 export default function SettingsPage() {
     return (
         <div className='divide-y divide-border [&>[data-slot=content]:first-child]:pb-6 [&>[data-slot=content]:not(:first-child)]:py-6'>
-            <section data-slot='content' className='max-w-xl space-y-4'>
+            <section data-slot='content' className='space-y-4'>
                 <Header>
                     <HeaderTitle>Account Information</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>
@@ -17,7 +18,7 @@ export default function SettingsPage() {
                 <UpdateAccountForm />
             </section>
 
-            <section data-slot='content' className='max-w-xl space-y-4'>
+            <section data-slot='content' className='space-y-4'>
                 <Header>
                     <HeaderTitle>Update Password</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>
@@ -28,13 +29,15 @@ export default function SettingsPage() {
                 <UpdatePasswordForm />
             </section>
 
-            <section data-slot='content' className='max-w-xl space-y-4'>
+            <section data-slot='content' className='space-y-4'>
                 <Header>
-                    <HeaderTitle>Danger Area</HeaderTitle>
+                    <HeaderTitle className='text-destructive'>Delete Account</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>
-                        Manage your account by using the correct account and updating your password regularly.
+                        Before you continue, be aware that this action is intended to delete your account.
                     </HeaderSubTitle>
                 </Header>
+
+                <Button variant='destructive'>Delete Account</Button>
             </section>
 
             <section data-slot='content'>

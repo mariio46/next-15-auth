@@ -11,7 +11,7 @@ const UpdatePasswordForm = () => {
 
     return (
         <Form {...form}>
-            <form id='update-password-form' onSubmit={form.handleSubmit(submit)} className='space-y-4'>
+            <form id='update-password-form' onSubmit={form.handleSubmit(submit)} className='max-w-xl space-y-4'>
                 <FormField
                     control={form.control}
                     name='current_password'
