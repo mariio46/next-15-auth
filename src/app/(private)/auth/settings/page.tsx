@@ -2,6 +2,7 @@ import { Header, HeaderSubTitle, HeaderTitle } from '@/components/header';
 
 import { Button } from '@/components/ui/button';
 import { UpdateAccountForm } from './_partials/account/form';
+import { DeleteAccountDialog } from './_partials/danger/dialog';
 import { UpdatePasswordForm } from './_partials/security/form';
 
 export default function SettingsPage() {
@@ -37,7 +38,11 @@ export default function SettingsPage() {
                     </HeaderSubTitle>
                 </Header>
 
-                <Button variant='destructive'>Delete Account</Button>
+                <DeleteAccountDialog>
+                    <Button type='button' variant='destructive'>
+                        Delete Account
+                    </Button>
+                </DeleteAccountDialog>
             </section>
 
             <section data-slot='content'>
