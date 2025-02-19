@@ -1,6 +1,7 @@
 import { Header, HeaderSubTitle, HeaderTitle } from '@/components/header';
 
 import { UpdateAccountForm } from './_partials/account/form';
+import { UpdatePasswordForm } from './_partials/security/form';
 
 export default function SettingsPage() {
     return (
@@ -16,16 +17,18 @@ export default function SettingsPage() {
                 <UpdateAccountForm />
             </section>
 
-            <section data-slot='content'>
+            <section data-slot='content' className='max-w-xl space-y-4'>
                 <Header>
                     <HeaderTitle>Update Password</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>
                         Manage your account by using the correct account and updating your password regularly.
                     </HeaderSubTitle>
                 </Header>
+
+                <UpdatePasswordForm />
             </section>
 
-            <section data-slot='content'>
+            <section data-slot='content' className='max-w-xl space-y-4'>
                 <Header>
                     <HeaderTitle>Danger Area</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>

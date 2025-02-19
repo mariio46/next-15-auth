@@ -2,10 +2,9 @@
 
 import { useUpdatePasswordAction } from './action';
 
-import { Button } from '@/components/ui/button';
+import { ClientActionSubmitButton } from '@/components/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { LucideReactIcon } from '@/components/ui/lucide-react-icon';
 
 const UpdatePasswordForm = () => {
     const { form, submit } = useUpdatePasswordAction();
@@ -72,13 +71,10 @@ const UpdatePasswordForm = () => {
                 />
 
                 <div>
-                    <Button
-                        type='submit'
-                        form='update-password-form'
-                        disabled={form.formState.isSubmitting || !form.formState.isDirty}>
-                        {form.formState.isSubmitting && <LucideReactIcon name='Loader' className='animate-spin' />}
-                        {form.formState.isSubmitting ? 'Processing...' : 'Save'}
-                    </Button>
+                    <ClientActionSubmitButton
+                        disabled={form.formState.isSubmitting || !form.formState.isDirty}
+                        visibility={form.formState.isSubmitting}
+                    />
                 </div>
             </form>
         </Form>
