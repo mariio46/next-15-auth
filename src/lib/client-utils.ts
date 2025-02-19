@@ -16,8 +16,9 @@ export function redirectIfUnauthenticated() {
     const queryClient = useQueryClient();
 
     function handleIfUnauthenticated() {
-        queryClient.removeQueries({
+        queryClient.invalidateQueries({
             queryKey: ['auth-user'],
+            exact: true,
         });
 
         setAuth({ user: undefined, status: 'unauthenticated' });
