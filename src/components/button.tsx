@@ -22,4 +22,18 @@ const ServerActionSubmitButton = React.forwardRef<
 
 ServerActionSubmitButton.displayName = 'ServerActionSubmitButton';
 
-export { ServerActionSubmitButton };
+const ClientActionSubmitButton = React.forwardRef<
+    HTMLButtonElement,
+    Omit<ButtonProps, 'children' | 'type'> & { text?: string; visibility: boolean }
+>(({ disabled, visibility, text = 'Save', ...props }, ref) => {
+    return (
+        <Button type='submit' disabled={disabled} ref={ref} {...props}>
+            {visibility && <LucideReactIcon name='Loader' className='animate-spin' />}
+            {visibility ? 'Processing...' : text}
+        </Button>
+    );
+});
+
+ClientActionSubmitButton.displayName = 'ClientActionSubmitButton';
+
+export { ClientActionSubmitButton, ServerActionSubmitButton };
