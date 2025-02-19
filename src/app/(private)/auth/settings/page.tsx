@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { UpdateAccountForm } from './_partials/account/form';
 import { DeleteAccountDialog } from './_partials/danger/dialog';
 import { UpdatePasswordForm } from './_partials/security/form';
+import { ThemeSelectionCard } from './_partials/theme/card';
 
 export default function SettingsPage() {
     return (
@@ -45,13 +46,15 @@ export default function SettingsPage() {
                 </DeleteAccountDialog>
             </section>
 
-            <section data-slot='content'>
+            <section data-slot='content' className='space-y-4'>
                 <Header>
-                    <HeaderTitle>Theme Prefrence</HeaderTitle>
+                    <HeaderTitle>Theme Preference</HeaderTitle>
                     <HeaderSubTitle className='max-w-xl'>
-                        Manage your account by using the correct account and updating your password regularly.
+                        Choose your theme base on your preference or choose system to synchronize with your device.
                     </HeaderSubTitle>
                 </Header>
+
+                <ThemeSelectionCard />
             </section>
         </div>
     );
